@@ -23,3 +23,4 @@ def tracking(request):
     if 'tracking_id' in request.GET:
         status = "Your order is being processed."
     return render(request, 'tracking.html', {'status': status})
+# comment added
