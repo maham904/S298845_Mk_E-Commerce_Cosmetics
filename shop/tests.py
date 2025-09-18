@@ -1,3 +1,4 @@
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from .models import Product
 from django.urls import reverse
@@ -20,13 +21,19 @@ class ProductModelTest(TestCase):
         product = Product.objects.get(name="Lipstick Red")
         self.assertEqual(product.price, Decimal('9.99'))  # ✅ compare Decimal with Decimal
 
-class ProductViewTest(TestCase):
-    def setUp(self):
-        Product.objects.create(
-            name="Lipstick Pink",
-            description="Soft pink shade",
-            price=Decimal('12.50')  # ✅ use Decimal here too
-        )
+    class ProductViewTest(TestCase):
+        def setUp(self):
+            image = SimpleUploadedFile(
+                name="test_image.jpg",
+                content=b"",  # empty content is fine for tests
+                content_type="image/jpeg"
+            )
+            Product.objects.create(
+                name="Lipstick Pink",
+                description="Soft pink shade",
+                price=Decimal('12.50'),
+                image=image  # ✅ add this
+            )
 
     def test_homepage_loads(self):
         # ✅ Make sure the URL name matches your urls.py
