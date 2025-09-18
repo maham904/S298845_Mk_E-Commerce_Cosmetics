@@ -22,4 +22,4 @@ def tracking(request):
     status = None
     if 'tracking_id' in request.GET:
         status = "Your order is being processed."
-    return render(request, ' tracking.html', {'status': status})
+    return render(request, 'tracking.html', {'status': status})
