@@ -1,13 +1,14 @@
 from django.test import TestCase
 from .models import Product
 from django.urls import reverse
+from decimal import Decimal  # ✅ needed for Decimal comparison
 
 class ProductModelTest(TestCase):
     def setUp(self):
         Product.objects.create(
             name="Lipstick Red",
             description="Classic red lipstick",
-            price=9.99
+            price=Decimal('9.99')  # ✅ use Decimal for DecimalField
         )
 
     def test_product_creation(self):
@@ -17,17 +18,19 @@ class ProductModelTest(TestCase):
 
     def test_product_price(self):
         product = Product.objects.get(name="Lipstick Red")
-        self.assertEqual(product.price, 9.99)
+        self.assertEqual(product.price, Decimal('9.99'))  # ✅ compare Decimal with Decimal
 
 class ProductViewTest(TestCase):
     def setUp(self):
         Product.objects.create(
             name="Lipstick Pink",
             description="Soft pink shade",
-            price=12.50
+            price=Decimal('12.50')  # ✅ use Decimal here too
         )
 
     def test_homepage_loads(self):
-        response = self.client.get(reverse("product_list"))  # adjust if your url name is different
+        # ✅ Make sure the URL name matches your urls.py
+        # If your urls.py has namespace 'shop', use reverse("shop:product_list")
+        response = self.client.get(reverse("product_list"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Lipstick Pink")

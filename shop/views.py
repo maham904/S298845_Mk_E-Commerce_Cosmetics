@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Product
+from django.views.generic import ListView
 
 def home(request):
     products = Product.objects.all()
@@ -24,3 +25,8 @@ def tracking(request):
         status = "Your order is being processed."
     return render(request, 'tracking.html', {'status': status})
 # comment added
+
+class ProductListView(ListView):
+    model = Product
+    template_name = "shop/product_list.html"  # points to your template
+    context_object_name = "products"
