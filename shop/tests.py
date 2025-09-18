@@ -26,7 +26,7 @@ class ProductModelTest(TestCase):
             image = SimpleUploadedFile(
                 name="test_image.jpg",
                 content=b"",  # empty content is fine for tests
-                content_type="image/jpeg"
+                content_type="lipsticks/png"
             )
             Product.objects.create(
                 name="Lipstick Pink",
