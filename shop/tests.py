@@ -2,13 +2,14 @@ import os
 from django.test import TestCase
 from django.urls import reverse
 from decimal import Decimal
-from .models import Product
 from django.core.files import File
+from shop.models import Product
+from django.conf import settings  # <- important
 
 class ProductViewTest(TestCase):
     def setUp(self):
-        # Path to your actual image
-        image_path = os.path.join(os.path.dirname(__file__), '..', 'media', 'lipsticks', 'lipstik.png')
+        # Correct path using BASE_DIR
+        image_path = os.path.join(settings.BASE_DIR, 'media', 'lipsticks', 'lipstik.png')
         with open(image_path, 'rb') as f:
             product_image = File(f)
             Product.objects.create(
