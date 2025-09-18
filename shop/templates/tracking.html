@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Track Your Order</h2>
+<form method="get">
+  <div class="mb-3">
+    <label>Enter Tracking ID</label>
+    <input type="text" class="form-control" name="tracking_id">
+  </div>
+  <button type="submit" class="btn btn-primary">Track</button>
+</form>
+
+{% if status %}
+  <div class="alert alert-info mt-3">
+    Status: {{ status }}
+  </div>
+{% endif %}
+{% endblock %}
