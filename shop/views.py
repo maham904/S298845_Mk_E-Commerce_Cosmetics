@@ -1,8 +1,14 @@
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST, Counter
 from django.shortcuts import render, get_object_or_404
-from .models import Product
+from django.http import HttpResponse
 from django.views.generic import ListView
+from .models import Product
+
+# Metric: counts homepage visits
+HOMEPAGE_VISITS = Counter('homepage_visits_total', 'Total homepage visits')
 
 def home(request):
+    HOMEPAGE_VISITS.inc()  # Increment counter whenever homepage is accessed
     products = Product.objects.all()
     return render(request, 'home.html', {'products': products})
 
@@ -24,9 +30,12 @@ def tracking(request):
     if 'tracking_id' in request.GET:
         status = "Your order is being processed."
     return render(request, 'tracking.html', {'status': status})
-# comment added
 
 class ProductListView(ListView):
     model = Product
-    template_name = "shop/product_list.html"  # points to your template
+    template_name = "shop/product_list.html"
     context_object_name = "products"
+
+# Metrics endpoint
+def metrics(request):
+    return HttpResponse(generate_latest(), content_type=CONTENT_TYPE_LATEST)

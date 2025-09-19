@@ -18,5 +18,5 @@ urlpatterns = [
     path('', views.ProductListView.as_view(), name='product_list'),
 
 
-    path('metrics/', metrics, name='metrics'),
+    path('metrics/', views.metrics, name='metrics'),
 ]
